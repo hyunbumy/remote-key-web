@@ -1,0 +1,26 @@
+{
+  "name": "rk-web",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack --mode development ./rkweb/frontend/src/index.js --output ./rkweb/frontend/static/frontend/main.js",
+    "build": "webpack --mode production ./rkweb/frontend/src/index.js --output ./rkweb/frontend/static/frontend/main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hyunbumy/remote-key-web.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hyunbumy/remote-key-web/issues"
+  },
+  "homepage": "https://github.com/hyunbumy/remote-key-web#readme",
+  "devDependencies": {
+    "webpack": "^4.10.2",
+    "webpack-cli": "^3.0.1"
+  }
+}

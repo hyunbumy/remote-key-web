@@ -90,3 +90,17 @@ db.sqlite3
 
 venv
 .vscode
+
+# Webpack#
+/node_modules
+/test/js
+/test/browsertest/js
+/test/fixtures/temp-cache-fixture
+/benchmark/js
+/benchmark/fixtures
+/examples/**/dist
+/coverage
+*.log
+.idea
+.eslintcache
+package-lock.json
