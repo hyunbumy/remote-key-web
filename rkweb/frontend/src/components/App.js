@@ -1,7 +1,8 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import React, { Component } from "react";
+import Login from './Login';
+import Lock from './Lock';
 
-class Test extends React.Component {
+class App extends Component {
   constructor(props) {
     super(props)
 
@@ -11,11 +12,11 @@ class Test extends React.Component {
   }
   render() {
     return (
-      <div>
-        Hello {this.state.username}
+      <div className='container-fluid'>
+        <Lock lockName='testLock' ipAddr='0.0.0.0'/>
       </div>
     )
   }
 }
-  
- ReactDOM.render(<Test />, document.getElementById('app'));
+
+export default App;
