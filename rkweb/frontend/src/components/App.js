@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 // import Login from './Login';
 import Lock from './Lock';
+import './App.css';
 
 class App extends Component {
   constructor(props) {
@@ -12,7 +13,7 @@ class App extends Component {
   }
   render() {
     return (
-      <div className="container-fluid">
+      <div className="container-fluid App">
         <Lock lockName="testLock" ipAddr="0.0.0.0" userName={this.state.username} />
       </div>
     );
