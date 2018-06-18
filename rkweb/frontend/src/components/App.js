@@ -17,6 +17,10 @@ class App extends Component {
     };
   }
 
+  loginButtonHandler = (username) => {
+    this.setState({ username });
+  }
+
   render() {
     return (
       <div className="container-fluid App">
@@ -39,10 +43,12 @@ class App extends Component {
           ipAddr={this.state.locks[2].ipAddr}
           userName={this.state.username}
         >
-        Test Description
+          {this.state.username}
         </Lock>
 
-        <Login />
+        <button onClick={() => this.loginButtonHandler('My NAME!!!!')} >Click me!</button>
+
+        <Login buttonHandler={this.loginButtonHandler} />
       </div>
     );
   }

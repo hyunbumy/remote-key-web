@@ -18,20 +18,21 @@ class Login extends Component {
   handleSubmit = (event) => {
     // Do nothing
     event.preventDefault();
+    this.props.buttonHandler(this.state.username);
   }
 
   render() {
     return (
       <div className="container-fluid">
-        <form className="form-group">
-          <div className="row">
+        <form className="form-group row">
+          <div className="col">
             <label htmlFor="username">Username:
               <input id="username" className="form-control" type="text" value={this.state.username} onChange={this.handleUsernameChange} />
             </label>
             <label htmlFor="password">Password:
               <input id="password" className="form-control" type="password" value={this.state.password} onChange={this.handlePasswordChange} />
             </label>
-            <button className="btn btn-primary mt-3" onChange={this.handleSubmit}>
+            <button className="btn btn-primary mt-3" onClick={this.handleSubmit}>
               Submit
             </button>
           </div>
