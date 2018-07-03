@@ -4,3 +4,6 @@ rules:
   no-unused-vars: warn
   react/jsx-filename-extension: off
   react/no-unused-state: warn
+  arrow-body-style: off
+  prefer-destructuring: warn
+  arrow-parens: warn

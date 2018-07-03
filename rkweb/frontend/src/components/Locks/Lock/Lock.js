@@ -2,9 +2,9 @@ import React from 'react';
 
 const lock = (props) => {
   return (
-    <div className="container-fluid">
-      <div className="row">
-        <div className="col-8">
+    <div onClick={props.click} className="container-fluid lock-container border border-primary m-2 p-2" role="presentation">
+      <div className="row justify-content-center">
+        <div className="col-4">
           <div className="row">
             <div className="col">
               {props.lockName}
@@ -19,7 +19,7 @@ const lock = (props) => {
             </div>
           </div>
         </div>
-        <div className="col-4">
+        <div className="col-2">
           <button className="btn btn-primary">Button</button>
         </div>
       </div>
