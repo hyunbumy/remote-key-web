@@ -7,3 +7,4 @@ rules:
   arrow-body-style: off
   prefer-destructuring: warn
   arrow-parens: warn
+  jsx-a11y/label-has-for: off
