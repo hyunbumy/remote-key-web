@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Login from './Login/Login';
 import Locks from './Locks/Locks';
@@ -77,9 +77,15 @@ import './App.css';
 //   }
 // }
 
+const locks = [
+  { lockName: 'testLock1', ipAddr: '0.0.0.1', id: 1 },
+  { lockName: 'testLock2', ipAddr: '0.0.0.2', id: 2 },
+  { lockName: 'testLock3', ipAddr: '0.0.0.3', id: 3 },
+];
+
 const App = () => (
   <Switch>
-    <Route path="/" exact component={Locks} />
+    <Route exact path="/" render={() => <Locks locks={locks} />} />
     <Route path="/login" component={Login} />
   </Switch>
 );
