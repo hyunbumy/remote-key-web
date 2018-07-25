@@ -85,8 +85,8 @@ const locks = [
 
 const App = () => (
   <Switch>
-    <Route exact path="/" render={() => <Locks locks={locks} />} />
-    <Route path="/login" component={Login} />
+    <Route exact path="/app/" render={() => <Locks locks={locks} />} />
+    <Route path="/app/login" component={Login} />
   </Switch>
 );
 
