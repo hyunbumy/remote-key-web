@@ -1,4 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -12,7 +14,6 @@ class LoginView(APIView):
 
         return Response({"error": "User is not logged in"}, status=HTTP_401_UNAUTHORIZED)
 
-
     def post(self, request):
         username = request.data.get("username")
         password = request.data.get("password")
@@ -24,6 +25,7 @@ class LoginView(APIView):
 
         return Response({"error": "Login failed"}, status=HTTP_401_UNAUTHORIZED)
 
+
 @api_view(["GET"])
 def logout_view(request):
     if not request.user.is_anonymous:
@@ -32,3 +34,19 @@ def logout_view(request):
     
     return Response({"error": "User is not logged in"}, status=HTTP_400_BAD_REQUEST)
     
+
+class LocksView(APIView):
+    authentication_classes = (SessionAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    test_locks = [
+        { "lockName": 'testLock1', "ipAddr": '0.0.0.1', "id": 1 },
+        { "lockName": 'testLock2', "ipAddr": '0.0.0.2', "id": 2 },
+        { "lockName": 'testLock3', "ipAddr": '0.0.0.3', "id": 3 },
+    ]
+
+    def get(self, request):
+        return Response(LocksView.test_locks, status=HTTP_200_OK)
+
+    def post(self, request):
+        return Response()
