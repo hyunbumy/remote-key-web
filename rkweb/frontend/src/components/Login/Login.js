@@ -48,7 +48,7 @@ class Login extends Component {
       .then(response => {
         console.log(response);
         // TODO: if successful, redirect to /app/
-        if (response.status == 200) {
+        if (response.status === 200) {
           this.setState({ loggedIn: true });
         }
       })

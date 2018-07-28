@@ -6,6 +6,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.status import HTTP_401_UNAUTHORIZED, HTTP_200_OK, HTTP_400_BAD_REQUEST
 
+from backend.models import Lock, LockPermissions
+
 
 class LoginView(APIView):
     def get(self, request):
@@ -46,7 +48,17 @@ class LocksView(APIView):
     ]
 
     def get(self, request):
-        return Response(LocksView.test_locks, status=HTTP_200_OK)
+        allowed_locks = Lock.objects.all().filter(allowed_users__id__exact=request.user.id)
+        locks = []
+        for lock in allowed_locks:
+            lock_dict = {
+                "lockName": lock.name,
+                "ipAddr": lock.ip_address,
+                "id": lock.id
+            }
+            locks.append(lock_dict)
+        return Response(locks, status=HTTP_200_OK)
 
     def post(self, request):
+        # Add a new lock associated with the user
         return Response()
