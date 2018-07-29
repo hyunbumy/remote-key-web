@@ -15,7 +15,7 @@ class SessionTimeoutMiddleware:
         if not hasattr(request, 'session') or request.session.is_empty():
             return self.get_response(request)
 
-        init_time = request.session.setdefault(SESSION_TIMEOUT_KEY, time.time())
+        init_time = request.session.get(SESSION_TIMEOUT_KEY, time.time())
 
         expire_seconds = getattr(
             settings, 'SESSION_EXPIRE_SECONDS', settings.SESSION_COOKIE_AGE
@@ -25,7 +25,7 @@ class SessionTimeoutMiddleware:
 
         if session_is_expired:
             request.session.flush()
-            return redirect_to_login(next=request.path)
+            return redirect_to_login(next=request.path, login_url='app/login/')
 
         request.session[SESSION_TIMEOUT_KEY] = time.time()
 

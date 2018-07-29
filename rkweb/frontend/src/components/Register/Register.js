@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
-class Login extends Component {
+class Register extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       username: '',
+      email: '',
       password: '',
+      passwordConfirm: '',
       loggedIn: false,
       responseReturned: false,
     };
@@ -38,12 +40,22 @@ class Login extends Component {
     this.setState({ password: event.target.value });
   }
 
+  handlePasswordConfirmChange = (event) => {
+    this.setState({ passwordConfirm: event.target.value });
+  }
+
+  handleEmailChange = (event) => {
+    this.setState({ email: event.target.value });
+  }
+
   handleSubmit = (event) => {
     // Do nothing
     event.preventDefault();
-    axios.post('/api/login/', {
+    axios.post('/api/register/', {
       username: this.state.username,
       password: this.state.password,
+      passwordConfirm: this.state.passwordConfirm,
+      email: this.state.email,
     })
       .then(response => {
         console.log(response);
@@ -53,14 +65,13 @@ class Login extends Component {
         }
       })
       .catch(error => {
-        console.log(error);
-        this.setState({ username: '', password: '' });
+        console.log(error.response);
       });
   }
 
   handleButton = (event) => {
     event.preventDefault();
-    window.location.href = '/app/register/';
+    window.location.href = '/app/login/';
   }
 
   renderRedirect = () => {
@@ -79,17 +90,25 @@ class Login extends Component {
         <form>
           <div className="form-group">
             <label htmlFor="username">Username:</label>
-            <input id="username" className="form-control" type="text" value={this.state.username} onChange={this.handleUsernameChange} />
+            <input id="username" className="form-control" type="text" value={this.state.username} onChange={this.handleUsernameChange} required />
+          </div>
+          <div className="form-group">
+            <label htmlFor="username">Email:</label>
+            <input id="email" className="form-control" type="email" value={this.state.email} onChange={this.handleEmailChange} />
           </div>
           <div className="form-group">
             <label htmlFor="password">Password:</label>
-            <input id="password" className="form-control" type="password" value={this.state.password} onChange={this.handlePasswordChange} />
+            <input id="password" className="form-control" type="password" value={this.state.password} onChange={this.handlePasswordChange} required />
+          </div>
+          <div className="form-group">
+            <label htmlFor="password">Confirm Password:</label>
+            <input id="password-confirm" className="form-control" type="password" value={this.state.passwordConfirm} onChange={this.handlePasswordConfirmChange} required />
           </div>
           <button className="btn btn-primary mt-3" onClick={this.handleSubmit}>
             Submit
           </button>
           <button className="btn btn-primary mt-3" onClick={this.handleButton}>
-            Register
+            Back to Login
           </button>
         </form>
       </div>
@@ -97,4 +116,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default Register;

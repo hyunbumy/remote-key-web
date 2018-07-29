@@ -1,10 +1,12 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.status import HTTP_401_UNAUTHORIZED, HTTP_200_OK, HTTP_400_BAD_REQUEST
+from rest_framework.status import HTTP_401_UNAUTHORIZED, HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_422_UNPROCESSABLE_ENTITY
+from django.contrib.auth.views import redirect_to_login
 
 from backend.models import Lock, LockPermissions
 
@@ -35,7 +37,26 @@ def logout_view(request):
         return Response({"message": "Logout successful"}, status=HTTP_200_OK)
     
     return Response({"error": "User is not logged in"}, status=HTTP_400_BAD_REQUEST)
+
+
+@api_view(["POST"])
+def register_view(request):
+    username = request.data.get("username")
+    email = request.data.get("email")
+    password = request.data.get("password")
+    password_confirm = request.data.get("passwordConfirm")
+
+    if password != password_confirm:
+        return Response({"error": "Passwords do not match"}, status=HTTP_422_UNPROCESSABLE_ENTITY)
     
+    try:
+        user = User.objects.create_user(username=username, email=email, password=password)
+    except Exception as e:
+        return Response({"error": e.__dict__}, status=HTTP_422_UNPROCESSABLE_ENTITY)
+
+    login(request,user)
+    return Response({"message": "User created successfully"}, status=HTTP_200_OK)
+
 
 class LocksView(APIView):
     authentication_classes = (SessionAuthentication,)
