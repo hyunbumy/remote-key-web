@@ -1,14 +1,17 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.contrib.auth.views import redirect_to_login
+from django.contrib.auth.hashers import make_password
+
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.status import HTTP_401_UNAUTHORIZED, HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_422_UNPROCESSABLE_ENTITY
-from django.contrib.auth.views import redirect_to_login
 
 from backend.models import Lock, LockPermissions
+from backend.serializers import LockSerializer
 
 
 class LoginView(APIView):
@@ -70,16 +73,19 @@ class LocksView(APIView):
 
     def get(self, request):
         allowed_locks = Lock.objects.all().filter(allowed_users__id__exact=request.user.id)
-        locks = []
-        for lock in allowed_locks:
-            lock_dict = {
-                "lockName": lock.name,
-                "ipAddr": lock.ip_address,
-                "id": lock.id
-            }
-            locks.append(lock_dict)
-        return Response(locks, status=HTTP_200_OK)
+        serializer = LockSerializer(allowed_locks, many=True)
+
+        return Response(serializer.data, status=HTTP_200_OK)
 
     def post(self, request):
         # Add a new lock associated with the user
-        return Response()
+        name = request.data.get("name")
+        ip_address = request.data.get("ip_addr")
+        access_code = make_password(request.data.get("access_code"))
+
+        lock = Lock.objects.create(name=name, access_code=access_code, ip_address=ip_address, created_by=request.user)
+        LockPermissions.make_association(request.user, lock)
+
+        serializer = LockSerializer(lock)
+
+        return Response(serializer.data, status=HTTP_200_OK)

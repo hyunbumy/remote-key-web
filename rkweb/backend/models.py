@@ -18,3 +18,7 @@ class LockPermissions(models.Model):
     
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     lock = models.ForeignKey(Lock, on_delete=models.CASCADE)
+
+    @staticmethod
+    def make_association(user, lock):
+        return LockPermissions.objects.create(user=user, lock=lock)

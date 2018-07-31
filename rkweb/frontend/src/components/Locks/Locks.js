@@ -27,6 +27,7 @@ class Locks extends Component {
       .then(response => {
         if (response.status === 200) {
           this.setState({ locks: response.data });
+          console.log(this.state.locks);
         }
       })
       .catch(error => {
@@ -41,12 +42,12 @@ class Locks extends Component {
     if (!this.state.loggedIn) {
       return <Redirect to="/app/login/" />;
     }
-    return this.state.locks.map((lock, index) => {
+    return this.state.locks.map((lock) => {
       return (
         <Lock
-          lockName={lock.lockName}
-          ipAddr={lock.ipAddr}
-          userName={lock.username}
+          lockName={lock.name}
+          ipAddr={lock.ip_address}
+          userName={lock.created_by}
           key={lock.id}
         />
       );
