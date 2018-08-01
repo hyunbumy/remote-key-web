@@ -2,7 +2,8 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Login from './Login/Login';
 import Register from './Register/Register';
-import Locks from './Locks/Locks';
+import MainContainer from './Container/MainContainer';
+import AddLock from './AddLock/AddLock';
 import './App.css';
 
 // class App extends Component {
@@ -86,9 +87,10 @@ const locks = [
 
 const App = () => (
   <Switch>
-    <Route exact path="/app" render={() => <Locks locks={locks} />} />
+    <Route exact path="/app" component={MainContainer} />
     <Route path="/app/login" component={Login} />
     <Route path="/app/register" component={Register} />
+    <Route path="/app/add" component={AddLock} />
   </Switch>
 );
 

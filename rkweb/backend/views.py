@@ -80,8 +80,8 @@ class LocksView(APIView):
     def post(self, request):
         # Add a new lock associated with the user
         name = request.data.get("name")
-        ip_address = request.data.get("ip_addr")
-        access_code = make_password(request.data.get("access_code"))
+        ip_address = request.data.get("ipAddress")
+        access_code = make_password(request.data.get("accessCode"))
 
         lock = Lock.objects.create(name=name, access_code=access_code, ip_address=ip_address, created_by=request.user)
         LockPermissions.make_association(request.user, lock)
